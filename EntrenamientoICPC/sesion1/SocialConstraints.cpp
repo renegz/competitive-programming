@@ -2,17 +2,19 @@
 
 using namespace std;
 
-vector<int> arr;
+vector<int> arr, a(21), b(21), c(21);
+int ans = 0;
+
 int factorial(int n);
-void constraints(int a, int b, int c);
+int constraints(int m);
 
 int main(){
 
-    int a, b, c;
     int n, m;
 
     do {
         arr.clear();
+        ans = 0;
 
         cin >> n >> m;
 
@@ -20,16 +22,15 @@ int main(){
 
         if (m == 0 && n > 0) cout << factorial(n) <<endl;
 
-        while (m--)
+        for (int i = 0; i < m ; ++i)
         {
-            cin >> a >> b >> c;
-            constraints(a, b, c);
+            cin >> a[i] >> b[i] >> c[i];
         }
 
-    } while (n != 0 && m !=0);
-    
-    
+        if (m!=0) cout << constraints(m) << endl;
 
+    } while (n != 0 || m !=0);
+    
     return 0;
 }
 
@@ -42,14 +43,37 @@ int factorial(int n){
     return mult;
 }
 
-void constraints(int a, int b, int c){
+int constraints(int m){
 
     do 
     {
-        for (auto x:arr)
-            cout << x << " ";
-        cout << endl;
+        int aPos, bPos;
+
+        for (int i = 0 ; i < m ; ++i){
+
+            for ( int j = 0; j<arr.size(); ++j) {
+                if(arr[j] == a[i] ) {
+                    aPos = j;
+                }
+                if(arr[j] == b[i] ) {
+                    bPos = j;
+                }
+            }
+            
+            if (c[i] > 0 && 
+                abs(aPos - bPos) <= abs(c[i]) //Se calcula la diferencia entre las posiciones
+            ){
+                ans++;
+            }
+            if (c[i] < 0 && 
+                abs(aPos - bPos) >= abs(c[i])
+            ){
+                ans++;
+            }
+        
+        }
+
     } while (next_permutation(arr.begin(), arr.end()));
     
-
+    return ans;
 }
