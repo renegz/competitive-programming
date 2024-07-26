@@ -48,6 +48,7 @@ int constraints(int m){
     do 
     {
         int aPos, bPos;
+        bool valid = false;
 
         for (int i = 0 ; i < m ; ++i){
 
@@ -63,14 +64,18 @@ int constraints(int m){
             if (c[i] > 0 && 
                 abs(aPos - bPos) <= abs(c[i]) //Se calcula la diferencia entre las posiciones
             ){
-                ans++;
-            }
-            if (c[i] < 0 && 
+                valid = true;
+            } else if (c[i] < 0 && 
                 abs(aPos - bPos) >= abs(c[i])
             ){
-                ans++;
+                valid = true;
+            } else {
+                valid = false; //Si alguno de los constraints falla, no se suma como una posibilidad
+                break;
             }
-        
+        }
+        if(valid){
+                ans++;
         }
 
     } while (next_permutation(arr.begin(), arr.end()));
