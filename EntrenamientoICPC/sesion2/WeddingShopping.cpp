@@ -45,14 +45,18 @@ int main(){
         //         cout << endl;
         // }
         
+        solution = false;
+        for (int i = M ; i > 0 ; i--){ //Se recorre el arreglo de derecha a izq en la ultima fila y si encuentra un 1 cambia la bandera a true e imprime el resultado
+            if (dp[C][i] > 0){
+                solution = true;
+                cout << i << endl;
+                break;
+            }
+        }
 
-        if (dp[C][M] <= M && solution == true){
-            cout << dp[C][M] <<endl;
-        } else {
+        if (!solution){ //Si la bandera no cambia significa que no hay solucion
             cout << "no solution" << endl;
         }
-        
-        //dp.clear();
     }
     
     return 0;
@@ -63,21 +67,23 @@ void Shopping(vector<vector<int>> &dp){
         for (int j =1; j <= M; ++j){
             check(dp, i, j);
         }
-        if (dp[i-1][M] == 0 && i >1) solution = false;
     }
 }
 
 void check(vector<vector<int>> &dp, int i, int j){
-    int value = 0;
-    for (int k = 1; k <= K[i]; k++)
-    {   
-
-        if (models[i][k] + dp[i-1][j] <= M && j >= models[i][k]){ 
-            value = max(value, models[i][k] + dp[i-1][j]);  
-            
-        } else {
-            value = max(value, dp[i][j-1]);
+    if (dp[i-1][j] > 0 && i > 1){ //si hay un valor arriba se recorre en los modelos y se colocan 1, en las columnas del valor de la suma
+        for (int k = 1; k <= K[i]; k++)
+        {   
+            if (j + models[i][k] <= M){  //Solo se coloca el 1 si es una columna que no excede el budget M
+                dp[i][j + models[i][k]] = 1;
+            }
         }
     }
-    dp[i][j] = value;
+    if (i == 1){ //Debido a que la primera fila no tiene valores arriba solo se colocan todos los 1 posibles en su columna
+        for (int k = 1; k <= K[i]; k++)
+        {   
+            if (j == models[i][k]) dp[i][j] = 1; 
+        }
+    }
+    
 }
