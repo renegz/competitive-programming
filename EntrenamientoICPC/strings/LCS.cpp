@@ -33,6 +33,16 @@ int main(){
     }
 
     cout << dp[r][c] << endl;
+
+    //print matrix
+    for (int i = 0; i <= r; i++)
+    {
+        for (int j = 0; j <= c; j++)
+        {
+            cout << dp[i][j] << " ";
+        }
+        cout << endl;
+    }
     
 
     return 0;
